@@ -1,0 +1,7 @@
+Serial Number 72582
+Part Number 01-001371e9bs
+test_number, test_name, lower_limit, upper_limit, measured_value, status
+    1,Power Up,0.00,1.00,1.00,PASS
+    2,Main Blower at 100 % L1-L2,173.00,260.00,234.65,PASS
+   11,Drum Agitator Clockwise at 100% Speed L1-L2,173.00,260.00,235.54,PASS
+   61,End of Tests,0.00,1.00,1.00,PASS

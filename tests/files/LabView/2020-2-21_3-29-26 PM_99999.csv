@@ -1,0 +1,13 @@
+Serial Number 99999
+Part Number 01-001371e9bs
+test_number, test_name, lower_limit, upper_limit, measured_value, status
+    1,Power Up,0.00,1.00,1.00,PASS
+    2,Main Blower at 100 % L1-L2,173.00,260.00,234.51,PASS
+    3,Main Blower at 100 % L1-L3,173.00,260.00,234.82,PASS
+    4,Main Blower at 100 % L2-L3,173.00,260.00,234.90,PASS
+    5,Main Blower at 20% L1-L2,96.00,198.00,149.25,PASS
+    6,Main Blower at 20% L1-L3,96.00,198.00,150.01,PASS
+    7,Main Blower at 20% L2-L3,96.00,198.00,148.07,PASS
+    8,Main Blower at 0% L1-L2,0.00,20.00,0.64,PASS
+    9,Main Blower at 0% L1-L3,0.00,20.00,0.53,PASS
+   10,Main Blower at 0% L2-L3,0.00,20.00,0.45,PASS

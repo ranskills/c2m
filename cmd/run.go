@@ -63,24 +63,31 @@ func CreateRunAction(cfg setting.Config) func(args []string, options map[string]
 		}
 
 		processFile := func(filePath string) {
+			const trackingFilename string = ".c2m"
+
+			parts := strings.Split(filePath, string(os.PathSeparator))
+			filename := parts[len(parts)-1]
+
+			contents, _ := ioutil.ReadFile(trackingFilename)
+			trackingMap := make(map[string]ProcessedFileInfo)
+			json.Unmarshal(contents, &trackingMap)
+
+			if _, ok := trackingMap[filename]; ok {
+				log.Printf("Skipping already processed file %s\n", filename)
+				return
+			}
+
 			startTime := time.Now()
 			jsons := jsonfy(filePath)
 			processPayloads(jsons, prettyPrintJson)
 			endTime := time.Now()
 
-			parts := strings.Split(filePath, string(os.PathSeparator))
-			filename := parts[len(parts)-1]
-			a := make(map[string]ProcessedFileInfo)
-
-			d, _ := ioutil.ReadFile("xxx.json")
-			json.Unmarshal(d, &a)
-
 			if numRecords := len(jsons); numRecords > 0 {
-				a[filename] = ProcessedFileInfo{startTime, endTime, numRecords}
+				trackingMap[filename] = ProcessedFileInfo{startTime, endTime, numRecords}
 			}
 
-			data, _ := json.MarshalIndent(a, "", "\t")
-			ioutil.WriteFile("xxx.json", data, os.ModePerm)
+			data, _ := json.MarshalIndent(trackingMap, "", "\t")
+			ioutil.WriteFile(trackingFilename, data, os.ModePerm)
 		}
 
 		for _, file := range files {

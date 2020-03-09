@@ -1,24 +1,49 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/ranskills/mp/setting"
-	"github.com/ranskills/mp/util"
+	"github.com/ranskills/c2m/setting"
+	"github.com/ranskills/c2m/util"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
+	"strings"
 )
 
-// CreateDryRunAction Creates a dry run action
 func CreateDryRunAction(cfg setting.Config) func(args []string, options map[string]string) int {
+
+	processPayloads := func(payloads []map[string]string, prettyPrintJson bool) {
+		var payload []byte
+		var err error
+
+		for _, j := range payloads {
+
+			if prettyPrintJson {
+				payload, err = json.MarshalIndent(j, "", "\t")
+			} else {
+				payload, err = json.Marshal(j)
+			}
+
+			if err == nil {
+				fmt.Println(string(payload))
+			} else {
+				fmt.Println(err)
+			}
+		}
+	}
 
 	return func(args []string, options map[string]string) int {
 
 		prettyPrintJson, _ := strconv.ParseBool(options["pretty"])
-
-		processFile := util.CreateProcessFileFunc(cfg, prettyPrintJson)
+		watch, _ := strconv.ParseBool(options["watch"])
+		jsonfy := util.CreateJsonfy(cfg)
 
 		srcDir := options["src"]
+		if !strings.HasSuffix(srcDir, string(os.PathSeparator)) {
+			srcDir += string(os.PathSeparator)
+		}
 
 		files, err := ioutil.ReadDir(srcDir)
 
@@ -26,42 +51,21 @@ func CreateDryRunAction(cfg setting.Config) func(args []string, options map[stri
 			log.Fatal(err)
 		}
 
-		for _, file := range files {
-			fmt.Println(file.Name(), file.ModTime())
+		processFile := func(filePath string) {
+			jsons := jsonfy(filePath)
+			processPayloads(jsons, prettyPrintJson)
+		}
 
-			// util.ProcessFile("./files/" + file.Name())
+		for _, file := range files {
+			log.Println(file.Name(), file.ModTime())
+
 			processFile(srcDir + file.Name())
 		}
 
-		// watchDirectory()
+		if watch {
+			util.WatchDirectory(srcDir, processFile)
+		}
 
 		return 0
 	}
 }
-
-//func dryRunAction(args []string, options map[string]string) int {
-//
-//	// processFile := util.CreateProcessFileFunc(cfg)
-//	fmt.Println(args)
-//	fmt.Println("config", options["config"])
-//	fmt.Println("src", options["src"])
-//
-//	// return 0
-//
-//	files, err := ioutil.ReadDir(options["src"])
-//
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	for _, file := range files {
-//		fmt.Println(file.Name(), file.ModTime())
-//
-//		// util.ProcessFile("./files/" + file.Name())
-//		// processFile("./files/" + file.Name())
-//	}
-//
-//	// watchDirectory()
-//
-//	return 0
-//}

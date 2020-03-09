@@ -2,20 +2,20 @@ package util
 
 import (
 	"bufio"
-	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"path"
 	"strconv"
 	"strings"
 
-	"github.com/ranskills/mp/setting"
-	"github.com/ranskills/mp/broker"
+	"github.com/ranskills/c2m/setting"
 )
 
-// CreateProcessFileFunc Transforms the line items to JSON and publishes to message broker
-func CreateProcessFileFunc(cfg setting.Config, prettyPrintJson bool) func(string) {
+// CreateJsonfy Transforms the line items to JSON and publishes to message broker
+// TODO:
+// 1. Consider renaming this to CreateJsonBuilder
+// 2. Return an array of json string i.e. []string
+func CreateJsonfy(cfg setting.Config) func(string) []map[string]string {
 	dataFieldsMapping := cfg.BuildDataFieldsMapping()
 	headingFieldsMapping := cfg.BuildHeadingFieldsMapping()
 	nameFieldsMapping := cfg.BuildNameFieldsMapping()
@@ -30,45 +30,50 @@ func CreateProcessFileFunc(cfg setting.Config, prettyPrintJson bool) func(string
 		for _, mapping := range nameFieldsMapping {
 			parts := strings.Split(name, mapping.Separator)
 
-			fields[mapping.FieldName] = parts[mapping.FieldPosition - 1]
+			fields[mapping.FieldName] = parts[mapping.FieldPosition-1]
 		}
 		return fields
 	}
 
-	client := broker.GetClient(cfg)
+	copyToMap := func(from map[string]string, to map[string]string) {
+		for k, v := range from {
+			to[k] = v
+		}
+	}
 
-	return func(filePath string) {
-		log.Printf("\n\nProcessing: %s\n", filePath)
+	return func(filePath string) []map[string]string {
 
 		stat, err := os.Stat(filePath)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
+			return nil
 		}
 
 		notValidFile := stat.IsDir() || path.Ext(filePath) != cfg.File.Extension
-		if notValidFile {
-			log.Printf("Cannot process the filePath: %s\n", filePath)
-			return
+		if notValidFile == true {
+			log.Printf("Skipping file %s. Reason: Not a CSV file\n", stat.Name())
+			return nil
 		}
 
+		log.Printf("Processing: %s\n", stat.Name())
 		file, err := os.Open(filePath)
 
-		if err != nil {
-			log.Fatal(err)
-		}
+		//if err != nil {
+		//	log.Println(err)
+		//	return nil
+		//}
 		defer file.Close()
 
-		// return
+		var ret []map[string]string
+
 		nameFields := extractFieldsFromFileName(stat.Name())
-		//fmt.Printf("**** %s\n", nameFields)
 		headerFields := make(map[string]string)
 		line := 0
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
 			line++
 			lineText := scanner.Text()
-			//log.Println("xx", lineText, strings.TrimSpace(lineText) == "")
 			emptyLine := strings.TrimSpace(lineText) == ""
 
 			if emptyLine {
@@ -76,7 +81,7 @@ func CreateProcessFileFunc(cfg setting.Config, prettyPrintJson bool) func(string
 			}
 
 			if cfg.File.Data.HeaderPrefix != "" {
-				headerDetected := strings.HasPrefix(lineText, "test_number, test_name")
+				headerDetected := strings.HasPrefix(lineText, cfg.File.Data.HeaderPrefix)
 				if headerDetected {
 					continue
 				}
@@ -89,54 +94,24 @@ func CreateProcessFileFunc(cfg setting.Config, prettyPrintJson bool) func(string
 
 			if headerLineDetected {
 				value := strings.Split(lineText, headingFieldsConfig.Separator)[headingFieldsConfig.FieldPosition-1]
-				//fmt.Printf("Configured header settings. %s: %s\n", headingFieldsConfig.FieldName, value)
 				headerFields[headingFieldsConfig.FieldName] = value
 				continue
 			}
 
-			// fmt.Println(len(fields), fields[0])
-
-			j := make(map[string]string)
+			m := make(map[string]string)
 
 			for i := 0; i < len(fields); i++ {
 				fieldName := getFieldNameByIndex(i + 1)
 
-				j[fieldName] = strings.TrimSpace(fields[i])
+				m[fieldName] = strings.TrimSpace(fields[i])
 			}
 
-			// Should be conditional
-			//if true {
-				for fieldName, value := range headerFields {
-					j[fieldName] = value
-				}
-				for fieldName, value := range nameFields {
-					j[fieldName] = value
-				}
-			//}
+			copyToMap(headerFields, m)
+			copyToMap(nameFields, m)
 
-
-			var payload []byte
-			if prettyPrintJson {
-				payload, err = json.MarshalIndent(j, "", "\t")
-			} else {
-				payload, err = json.Marshal(j)
-			}
-
-			//
-
-			if err == nil {
-				fmt.Println(string(payload))
-				//client.Publish()
-				client.Publish(cfg.Mqtt.Topic, 0, false, string(payload))
-			} else {
-				fmt.Println(err)
-			}
+			ret = append(ret, m)
 		}
 
-		if err := scanner.Err(); err != nil {
-			log.Fatal(err)
-		}
-
+		return ret
 	}
-
 }

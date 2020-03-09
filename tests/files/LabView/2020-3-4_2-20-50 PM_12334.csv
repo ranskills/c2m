@@ -1,0 +1,64 @@
+Serial Number 12334
+Part Number 01-001371e9bs
+test_number, test_name, lower_limit, upper_limit, measured_value, status
+    1,Power Up,0.00,1.00,1.00,PASS
+    2,Main Blower at 100 % L1-L2,173.00,260.00,230.75,PASS
+    3,Main Blower at 100 % L1-L3,173.00,260.00,230.30,PASS
+    4,Main Blower at 100 % L2-L3,173.00,260.00,230.49,PASS
+    5,Main Blower at 20% L1-L2,96.00,198.00,146.19,PASS
+    6,Main Blower at 20% L1-L3,96.00,198.00,146.47,PASS
+    7,Main Blower at 20% L2-L3,96.00,198.00,148.34,PASS
+    8,Main Blower at 0% L1-L2,0.00,20.00,0.65,PASS
+    9,Main Blower at 0% L1-L3,0.00,20.00,0.54,PASS
+   10,Main Blower at 0% L2-L3,0.00,20.00,0.44,PASS
+   11,Drum Agitator Clockwise at 100% Speed L1-L2,173.00,260.00,231.79,PASS
+   12,Drum Agitator Clockwise at 100% Speed L1-L3,173.00,260.00,231.21,PASS
+   13,Drum Agitator Clockwise at 100% Speed L2-L3,173.00,260.00,232.06,PASS
+   14,Drum Agitator Clockwise at 50% Speed L1-L2,127.00,209.99,182.86,PASS
+   15,Drum Agitator Clockwise at 50% Speed L1-L3,127.00,210.00,182.80,PASS
+   16,Drum Agitator Clockwise at 50% Speed L2-L3,127.00,210.00,182.64,PASS
+   17,Drum Agitator Clockwise Stop L1-L2,0.00,20.00,0.96,PASS
+   18,Drum Agitator Clockwise Stop L1-L3,0.00,20.00,1.31,PASS
+   19,Drum Agitator Clockwise Stop L2-L3,0.00,20.00,0.81,PASS
+   20,Drum Agitator Counter Clockwise at 50% Speed L1-L2,127.00,210.00,182.22,PASS
+   21,Drum Agitator Counter Clockwise at 50% Speed L1-L3,127.00,210.00,182.41,PASS
+   22,Drum Agitator Counter Clockwise at 50% Speed L2-L3,127.00,210.00,182.85,PASS
+   23,Drum Agitator Counter Clockwise Stop L1-L2,0.00,20.00,0.96,PASS
+   24,Drum Agitator Counter Clockwise Stop L1-L3,0.00,20.00,1.33,PASS
+   25,Drum Agitator Counter Clockwise Stop L2-L3,0.00,20.00,0.81,PASS
+   26,Pump L1 L2,0.00,260.00,206.45,PASS
+   27,Compressor L1 L2,0.00,260.00,206.47,PASS
+   28,AUX Heater PWM 100%,20.00,260.00,52.36,PASS
+   29,AUX Heater PWM 0%,0.00,20.00,3.26,PASS
+   30,Main Heater PWM 100% L1-L2,173.00,260.00,192.62,PASS
+   31,Main Heater PWM 100% L1-L3,173.00,260.00,202.35,PASS
+   32,Main Heater PWM 100% L2-L3,173.00,260.00,192.52,PASS
+   33,Main Heater PWM 0% L1-L2,0.00,20.00,9.41,PASS
+   34,Main Heater PWM 0% L1-L3,0.00,20.00,15.89,PASS
+   35,Main Heater PWM 0% L2-L3,0.00,20.00,9.11,PASS
+   36,Bean Load 24V DC PinC,21.60,26.40,24.06,PASS
+   37,Bean Load 24V DC PinF,21.60,26.40,24.06,PASS
+   38,Bean Load Both Sensors are Not Present,0.00,1.00,1.00,PASS
+   39,Bean Load Open Sensor Present,0.00,1.00,1.00,PASS
+   40,Bean Load Close Sensor Present,0.00,1.00,1.00,PASS
+   41,Bean Load Both Sensors are Present,0.00,1.00,1.00,PASS
+   42,Bean Load Hopper Present,0.00,2.00,-1.00,FAIL
+   43,Bean Load Hopper Not Present,0.00,1.00,-1.00,FAIL
+   44,Bean Cooler Open,0.00,1.00,-1.00,FAIL
+   45,Bean Cooler Close,0.00,1.00,1.00,PASS
+   46,Bean Cooler 24V PinC,21.00,26.00,24.08,PASS
+   47,Bean Cooler 24V PinG and PinH,21.00,26.00,24.19,PASS
+   48,Bean Cooler Jumper C-F,21.00,26.00,24.08,PASS
+   49,Filter Box 48V DC,44.00,52.00,48.31,PASS
+   50,Filter Box PWM 48V to 0V Average,10.00,50.00,16.01,PASS
+   51,Belly Drop +24V Open,21.00,26.00,-24.19,FAIL
+   52,Belly Drop -24V Close,-26.00,-21.00,24.19,FAIL
+   53,Bean Load Pneumatic LED ON,0.00,1.00,1.00,PASS
+   54,Bean Load Pneumatic LED OFF,0.00,1.00,1.00,PASS
+   55,Bean Exit Open Pneumatic LED ON,0.00,1.00,1.00,PASS
+   56,Bean Exit Open Pneumatic LED OFF,0.00,1.00,1.00,PASS
+   57,Bean Exit Close Pneumatic LED ON,0.00,1.00,1.00,PASS
+   58,Bean Exit Close Pneumatic LED OFF,0.00,1.00,1.00,PASS
+   59,Passive Fan,21.00,26.00,24.19,PASS
+   60,Adam with 1k ohms,0.00,1.00,1.00,PASS
+   61,End of Tests,0.00,1.00,1.00,PASS

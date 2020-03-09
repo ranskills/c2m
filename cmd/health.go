@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ranskills/mp/broker"
-	"github.com/ranskills/mp/setting"
+	"github.com/ranskills/c2m/broker"
+	"github.com/ranskills/c2m/setting"
 )
 
 // CreateHealthAction Creates the action handler for health

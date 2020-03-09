@@ -69,9 +69,7 @@ func (c Config) BuildDataFieldsMapping() map[string]string {
 		parts := strings.Split(f, ",")
 
 		mapping[parts[DataFieldNamePositionIndex]] = strings.TrimSpace(parts[DataFieldNameIndex])
-		// fmt.Println(parts[0], parts[1])
 	}
-	// fmt.Println(mapping)
 
 	return mapping
 }
@@ -81,8 +79,7 @@ func (c Config) BuildNameFieldsMapping() map[string]NameFieldConfig {
 
 	for _, f := range c.File.Name.Fields {
 		parts := strings.Split(f, ",")
-		//log.Println(f)
-		//log.Println(parts)
+
 		i, err := strconv.Atoi(parts[NameFieldNamePositionIndex])
 		if err != nil {
 			log.Fatal(err)
@@ -116,9 +113,7 @@ func (c Config) BuildHeadingFieldsMapping() map[string]HeadingFieldConfig {
 			FieldPosition: i,
 			FieldName:     parts[HeadingFieldNameIndex],
 		}
-		//fmt.Println(parts[0], parts[1])
 	}
-	// fmt.Println(mapping)
 
 	return mapping
 }

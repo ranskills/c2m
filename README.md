@@ -44,6 +44,9 @@ canProcessFile
 - Matches the provided extension
 - Has not already been processed
 
+TODO:
+Remove the call to fatal e.g. in jsonfier, to make testing easier
+Change return type to ..., error
 # Libraries
 - https://fsnotify.org/
 - https://github.com/ilyakaznacheev/cleanenv

@@ -32,6 +32,11 @@ func main() {
 	run := cli.NewCommand("run", "Processes the files and publishes to the message broker").
 		WithAction(cmd.CreateRunAction(cfg))
 
+	listen := cli.NewCommand("listen", "Listens on a specified topic or, defaults to the topic in the " +
+		"configuration file, and dumps the messages to the terminal").
+		WithAction(cmd.CreateListenAction(cfg)).
+		WithOption(cli.NewOption("topic", "").WithChar('t').WithType(cli.TypeString))
+
 	app := cli.New("A customizable tool for publishing the contents of CSV files to a MQTT message broker").
 		WithOption(cli.NewOption("config", "full path to a configuration file").WithChar('c').WithType(cli.TypeString)).
 		WithOption(cli.NewOption("src", "path to the directory containing files to be published").WithChar('s').WithType(cli.TypeString)).
@@ -40,7 +45,8 @@ func main() {
 		WithCommand(version).
 		WithCommand(health).
 		WithCommand(dryRun).
-		WithCommand(run)
+		WithCommand(run).
+		WithCommand(listen)
 
 	os.Exit(app.Run(os.Args, os.Stdout))
 }

@@ -59,9 +59,9 @@ func createClientOptions(cfg setting.Config, uri *url.URL) *mqtt.ClientOptions {
 	opts.SetConnectTimeout(30 * time.Second)
 	opts.SetKeepAlive(60 * time.Second)
 	opts.SetCleanSession(false)
-	opts.SetOnConnectHandler(func(client mqtt.Client) {
-		log.Println("Connection Status: ", client.IsConnected())
-	})
+	//opts.SetOnConnectHandler(func(client mqtt.Client) {
+	//	log.Println("Connection Status: ", client.IsConnected())
+	//})
 
 	//tlsconfig := NewTLSConfig()
 	//opts.SetTLSConfig(tlsconfig)

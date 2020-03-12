@@ -1,11 +1,11 @@
 mqtt:
   scheme: tcp
-  host: putty.bellwether.link
+  host: localhost
   port: 1883
-  clientId: LabViewData
-  username: bw
-  password: coffee
-  topic: LabView/1
+  clientId: M707
+  username:
+  password:
+  topic: testing/roaster/M77/panels
 
 file:
   extension: .csv
@@ -17,7 +17,7 @@ file:
   name:
     fields:
       # separator, field position, field name
-      -  " ,1,timeStamp"
+      - " ,1,timeStamp"
 
   data:
     headerPrefix: test_number
